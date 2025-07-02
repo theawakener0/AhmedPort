@@ -16,12 +16,6 @@ body {
     100% { background-position: 0% 50%; }
 }
 
-body.light-theme {
-    background: linear-gradient(45deg, #e0e0e0, #ffffff, #e0e0e0);
-    background-size: 400% 400%;
-    color: #333333;
-}
-
 .container {
     max-width: 1100px;
     margin: auto;
@@ -58,20 +52,11 @@ nav {
     margin-top: 20px;
 }
 
-body.light-theme nav {
-    background: rgba(255, 255, 255, 0.7);
-    border: 1px solid rgba(0, 0, 0, 0.1);
-}
-
 nav .logo {
     font-size: 1.8rem;
     font-weight: 700;
     color: #fff;
     text-shadow: 0 0 8px rgba(255, 255, 255, 0.8), 0 0 16px rgba(255, 255, 255, 0.8);
-}
-
-body.light-theme nav .logo {
-    color: #333;
 }
 
 nav ul {
@@ -91,18 +76,30 @@ nav ul li a {
     font-weight: 600;
 }
 
-body.light-theme nav ul li a {
-    color: #333;
-}
-
 nav ul li a:hover {
     color: #ffffff;
     text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
 }
 
+.desktop-github-icon {
+    color: #fff;
+    font-size: 1.8rem;
+    text-decoration: none;
+}
+
+.desktop-github-icon:hover {
+    color: #ffffff;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+}
+
+.mobile-github-icon {
+    display: none;
+}
+
 .hamburger {
     display: none;
     cursor: pointer;
+    z-index: 102;
 }
 
 .hamburger div {
@@ -113,18 +110,8 @@ nav ul li a:hover {
     transition: all 0.3s ease;
 }
 
-body.light-theme .hamburger div {
-    background-color: #333;
-}
-
-.theme-switcher {
-    cursor: pointer;
-    font-size: 1.5rem;
-    color: #fff;
-}
-
-body.light-theme .theme-switcher {
-    color: #333;
+.nav-toggle {
+    display: none;
 }
 
 main {
@@ -289,12 +276,6 @@ main {
     transition: transform 0.3s, box-shadow 0.3s;
 }
 
-body.light-theme .project-card {
-    background: rgba(255, 255, 255, 0.7);
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-}
-
 .project-card:hover {
     transform: translateY(-10px);
     box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
@@ -358,10 +339,6 @@ body.light-theme .project-card {
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
 }
 
-body.light-theme .skills-list li {
-    background: #e0e0e0;
-}
-
 /* Contact Section */
 #contact {
     padding: 5rem 0;
@@ -376,17 +353,13 @@ body.light-theme .skills-list li {
     transition: color 0.3s;
 }
 
-body.light-theme .contact-links a {
-    color: #333;
-}
-
 .contact-links a:hover {
     color: #ffffff;
     text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
 }
 
 .contact-links i {
-    margin-right: 0.5rem;
+    margin-right: 8px;
 }
 
 /* Footer */
@@ -395,38 +368,14 @@ footer {
     padding: 2rem 0;
 }
 
-/* Scroll to top button */
-.scroll-to-top {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: #333;
-    color: #fff;
-    width: 40px;
-    height: 40px;
-    text-align: center;
-    line-height: 40px;
-    border-radius: 50%;
-    display: none;
-    z-index: 100;
-    transition: opacity 0.3s, visibility 0.3s, background-color 0.3s;
-}
-
-.scroll-to-top:hover {
-    background: #555;
-}
-
 /* Responsive */
 @media (max-width: 768px) {
-    .nav-links {
+    nav ul {
         position: fixed;
-        right: 0;
         top: 0;
+        right: 0;
         height: 100vh;
-        background: rgba(10, 10, 10, 0.9);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        display: flex;
+        background: rgba(0, 0, 0, 0.9);
         flex-direction: column;
         align-items: center;
         justify-content: center;
@@ -436,58 +385,42 @@ footer {
         z-index: 101; /* Above header */
     }
 
-    .nav-links.nav-active {
+    .nav-toggle:checked ~ .nav-links {
         transform: translateX(0%);
     }
 
     nav ul li {
         margin: 20px 0;
-        opacity: 0;
     }
 
     .hamburger {
         display: block;
-        z-index: 102; /* Above nav-links */
+    }
+
+    .desktop-github-icon {
+        display: none;
+    }
+
+    .mobile-github-icon {
+        display: block;
     }
 
     .about-content {
         grid-template-columns: 1fr;
-        text-align: center;
+        gap: 2rem;
     }
 
-    .profile-img {
+    .profile-card-container {
         margin: 0 auto 2rem;
     }
 
-    .toggle .line1 {
+    .nav-toggle:checked + .hamburger .line1 {
         transform: rotate(-45deg) translate(-5px, 6px);
     }
-    .toggle .line2 {
+    .nav-toggle:checked + .hamburger .line2 {
         opacity: 0;
     }
-    .toggle .line3 {
+    .nav-toggle:checked + .hamburger .line3 {
         transform: rotate(45deg) translate(-5px, -6px);
     }
-}
-
-@keyframes navLinkFade {
-    from {
-        opacity: 0;
-        transform: translateX(50px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0px);
-    }
-}
-
-section {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-}
-
-section.visible {
-    opacity: 1;
-    transform: translateY(0);
 }
