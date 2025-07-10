@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Reconnaissance: The Art of Digital Scouting - Ahmed Khaled</title>
+    <meta name="description" content="Before any engagement, comes reconnaissance. Understanding network topology, identifying services, and mapping attack surfaces—the foundation of any security assessment.">
+    
+    <link rel="icon" href="../assets/images/favicon.png", sizes="16x16 32x32 48x48 64x64 128x128">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">:: X ::</div>
+            <input type="checkbox" id="nav-toggle" class="nav-toggle">
+            <label for="nav-toggle" class="hamburger">
+                <div class="line1"></div>
+                <div class="line2"></div>
+                <div class="line3"></div>
+            </label>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../index.html#about">About</a></li>
+                <li><a href="../index.html#projects">Projects</a></li>
+                <li><a href="../index.html#skills">Skills</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="certifications.html">Certifications</a></li>
+                <li><a href="../index.html#contact">Contact</a></li>
+                <li class="mobile-github-icon"><a href="https://github.com/theawakener0" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a></li>
+            </ul>
+            <a href="https://github.com/theawakener0" target="_blank" rel="noopener noreferrer" class="desktop-github-icon"><i class="fab fa-github"></i></a>
+        </nav>
+    </header>
+
+    <main>
+        <article class="article-container">
+            <div class="container">
+                <div class="article-header">
+                    <a href="../blog.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Blog</a>
+                    <div class="article-meta">
+                        <span class="article-date">November 22, 2024</span>
+                        <span class="article-category">Cybersecurity</span>
+                    </div>
+                    <h1>Network Reconnaissance: The Art of Digital Scouting</h1>
+                    <div class="article-tags">
+                        <span class="tag">Nmap</span>
+                        <span class="tag">Reconnaissance</span>
+                        <span class="tag">Pentesting</span>
+                    </div>
+                </div>
+
+                <div class="article-content">
+                    <p class="lead">Before any engagement, comes reconnaissance. Understanding network topology, identifying services, and mapping attack surfaces the foundation of any security assessment.</p>
+
+                    <h2>The Scout's Mindset</h2>
+                    <p>In military terms, reconnaissance is the practice of gathering information about enemy positions and capabilities before engaging. In cybersecurity, network reconnaissance serves the same purpose, understanding the digital terrain before any assessment or engagement.</p>
+                    
+                    <p>Good reconnaissance is invisible, methodical, and comprehensive. Like a skilled scout, you want to gather maximum information while leaving minimal traces of your presence.</p>
+
+                    <h2>The Reconnaissance Phases</h2>
+                    <p>Network reconnaissance typically follows a structured approach, each phase building upon the last:</p>
+                    
+                    <ol>
+                        <li><strong>Passive Information Gathering:</strong> Collecting data without direct interaction</li>
+                        <li><strong>Active Scanning:</strong> Direct probing of target systems</li>
+                        <li><strong>Service Enumeration:</strong> Identifying specific services and versions</li>
+                        <li><strong>Vulnerability Analysis:</strong> Correlating findings with known vulnerabilities</li>
+                    </ol>
+
+                    <h2>Passive Reconnaissance: The Art of Listening</h2>
+                    <p>Before making any direct contact with target systems, skilled reconnaissance begins with passive information gathering. This phase is about listening rather than speaking.</p>
+
+                    <h3>OSINT: Open Source Intelligence</h3>
+                    <p>The modern internet leaves digital breadcrumbs everywhere. Public records, social media, company websites, and technical documentation all provide valuable intelligence:</p>
+
+                    <ul>
+                        <li><strong>DNS records:</strong> Revealing subdomains and network structure</li>
+                        <li><strong>WHOIS data:</strong> Ownership and contact information</li>
+                        <li><strong>Search engines:</strong> Cached pages and indexed documents</li>
+                        <li><strong>Social media:</strong> Employee information and technology stacks</li>
+                    </ul>
+
+                    <h3>Network Range Discovery</h3>
+                    <p>Understanding the target's network ranges is crucial. Tools like <code>whois</code> and public ASN databases reveal legitimate IP ranges, while services like Shodan can expose internet-facing assets.</p>
+
+                    <h2>Active Reconnaissance: Making Contact</h2>
+                    <p>Once passive gathering is complete, active reconnaissance begins direct interaction with target systems. This is where tools like Nmap become invaluable.</p>
+
+                    <h3>Host Discovery</h3>
+                    <p>The first step is determining which hosts are alive on the network. Nmap offers several techniques:</p>
+
+                    <ul>
+                        <li><code>-sn</code>: Ping scan (no port scan)</li>
+                        <li><code>-PS</code>: TCP SYN ping</li>
+                        <li><code>-PA</code>: TCP ACK ping</li>
+                        <li><code>-PU</code>: UDP ping</li>
+                    </ul>
+
+                    <p>Different techniques work better in different environments. Firewalls might block ICMP but allow TCP, or vice versa.</p>
+
+                    <h3>Port Scanning: Mapping Services</h3>
+                    <p>Once live hosts are identified, port scanning reveals which services are accessible. Nmap's scanning techniques each have their place:</p>
+
+                    <ul>
+                        <li><strong>TCP Connect scan (-sT):</strong> Complete three way handshake</li>
+                        <li><strong>SYN scan (-sS):</strong> Half open scan, more stealthy</li>
+                        <li><strong>UDP scan (-sU):</strong> For UDP services</li>
+                        <li><strong>Version detection (-sV):</strong> Service and version identification</li>
+                    </ul>
+
+                    <h2>The Nmap Methodology</h2>
+                    <p>Nmap isn't just a port scanner, it's a comprehensive network exploration tool. Understanding its capabilities transforms how you approach reconnaissance.</p>
+
+                    <h3>Timing and Stealth</h3>
+                    <p>Nmap's timing templates (-T0 through -T5) balance speed against stealth. In a security assessment, you might start with slow, stealthy scans and gradually increase aggressiveness based on what defensive measures you encounter.</p>
+
+                    <h3>Script Engine (NSE)</h3>
+                    <p>Nmap's scripting engine extends its capabilities far beyond port scanning:</p>
+
+                    <ul>
+                        <li><strong>Vulnerability detection:</strong> Scripts that check for known vulnerabilities</li>
+                        <li><strong>Service enumeration:</strong> Gathering detailed service information</li>
+                        <li><strong>Authentication testing:</strong> Default credential checks</li>
+                        <li><strong>Brute forcing:</strong> Password attacks against discovered services</li>
+                    </ul>
+
+                    <h2>Service Enumeration: Going Deeper</h2>
+                    <p>Once ports are identified, service enumeration provides detailed information about what's running on each port. This phase often reveals the most actionable intelligence.</p>
+
+                    <h3>Banner Grabbing</h3>
+                    <p>Many services announce themselves with version banners. Tools like <code>nc</code>, <code>telnet</code>, or Nmap's version detection can capture these banners:</p>
+
+                    <p><code>nc -nv 192.168.1.1 80</code></p>
+
+                    <p>The response might reveal web server type, version, and even underlying operating system.</p>
+
+                    <h3>Service-Specific Enumeration</h3>
+                    <p>Different services require different enumeration approaches:</p>
+
+                    <ul>
+                        <li><strong>HTTP/HTTPS:</strong> Directory enumeration, technology identification</li>
+                        <li><strong>SSH:</strong> Supported authentication methods, key exchange algorithms</li>
+                        <li><strong>DNS:</strong> Zone transfers, subdomain enumeration</li>
+                        <li><strong>SMTP:</strong> User enumeration, relay testing</li>
+                    </ul>
+
+                    <h2>Understanding Network Topology</h2>
+                    <p>Good reconnaissance builds a mental map of the target network. This includes:</p>
+
+                    <ul>
+                        <li><strong>Network segmentation:</strong> How different subnets relate</li>
+                        <li><strong>Trust relationships:</strong> Which systems trust which others</li>
+                        <li><strong>Critical assets:</strong> Servers, databases, domain controllers</li>
+                        <li><strong>Entry points:</strong> Internet facing services and their security posture</li>
+                    </ul>
+
+                    <h2>Defensive Considerations</h2>
+                    <p>Understanding reconnaissance is crucial for defenders. Modern networks should implement detection and prevention measures:</p>
+
+                    <h3>Intrusion Detection</h3>
+                    <p>IDS systems can detect common reconnaissance patterns:</p>
+
+                    <ul>
+                        <li>Port scan detection</li>
+                        <li>Unusual DNS queries</li>
+                        <li>Repeated connection attempts</li>
+                        <li>Service enumeration attempts</li>
+                    </ul>
+
+                    <h3>Honeypots and Deception</h3>
+                    <p>Sophisticated defenders use deception technologies, fake services that attract and detect reconnaissance attempts while providing false information to attackers.</p>
+
+                    <h2>Legal and Ethical Boundaries</h2>
+                    <p>Reconnaissance techniques are powerful, and with power comes responsibility. These skills should only be used:</p>
+
+                    <ul>
+                        <li>On networks you own or have explicit permission to test</li>
+                        <li>Within the scope of authorized security assessments</li>
+                        <li>In controlled lab environments for learning</li>
+                        <li>For defensive purposes on your organization's networks</li>
+                    </ul>
+
+                    <h2>The Art of Patience</h2>
+                    <p>Good reconnaissance takes time. Rushing through discovery phases often means missing critical information or triggering defensive measures unnecessarily.</p>
+
+                    <p>Professional penetration testers often spend more time on reconnaissance than on actual exploitation. The information gathered during this phase determines the success or failure of subsequent activities.</p>
+
+                    <h2>Tools of the Trade</h2>
+                    <p>While Nmap is the gold standard, reconnaissance requires a toolkit:</p>
+
+                    <ul>
+                        <li><strong>Nmap:</strong> Network discovery and port scanning</li>
+                        <li><strong>Masscan:</strong> High speed port scanning</li>
+                        <li><strong>DNSrecon:</strong> DNS enumeration</li>
+                        <li><strong>Gobuster:</strong> Directory and subdomain brute forcing</li>
+                        <li><strong>Shodan:</strong> Internet wide service discovery</li>
+                        <li><strong>TheHarvester:</strong> Email and subdomain harvesting</li>
+                    </ul>
+
+                    <h2>Building Mental Models</h2>
+                    <p>The goal of reconnaissance isn't just collecting data, it's building accurate mental models of target networks. This means understanding:</p>
+
+                    <ul>
+                        <li>How systems relate to each other</li>
+                        <li>Where the valuable assets likely reside</li>
+                        <li>What security measures are in place</li>
+                        <li>Which attack paths are most promising</li>
+                    </ul>
+
+                    <h2>Documentation and Analysis</h2>
+                    <p>Raw reconnaissance data is useless without proper analysis and documentation. Maintaining detailed records serves multiple purposes:</p>
+
+                    <ul>
+                        <li>Tracking what's been discovered</li>
+                        <li>Identifying patterns and relationships</li>
+                        <li>Supporting later phases of assessment</li>
+                        <li>Providing evidence for reports</li>
+                    </ul>
+
+                    <h2>The Continuous Process</h2>
+                    <p>Reconnaissance isn't a one-time activity. Networks change constantly, new services come online, configurations change, and security measures evolve.</p>
+
+                    <p>Effective security requires ongoing reconnaissance of your own networks. Regular scanning and monitoring help identify:</p>
+
+                    <ul>
+                        <li>Unauthorized services</li>
+                        <li>Configuration drift</li>
+                        <li>New vulnerabilities</li>
+                        <li>Suspicious activity</li>
+                    </ul>
+
+                    <h2>Beyond Technical Skills</h2>
+                    <p>While technical proficiency with tools is important, successful reconnaissance requires broader skills:</p>
+
+                    <ul>
+                        <li><strong>Critical thinking:</strong> Analyzing and correlating information</li>
+                        <li><strong>Creativity:</strong> Finding unconventional information sources</li>
+                        <li><strong>Patience:</strong> Allowing thorough discovery processes</li>
+                        <li><strong>Attention to detail:</strong> Catching subtle but important clues</li>
+                    </ul>
+
+                    <p>The best reconnaissance combines technical expertise with investigative instincts, knowing not just how to run the tools, but what questions to ask and where to look for answers.</p>
+
+                    <h2>My personal experience</h2>
+                    <p>As an AI developer and cybersecurity enthusiast, my first deep dive into network reconnaissance was more than just fun, it was eye-opening. I started with OSINT, gathering information about my friends (don’t worry they knew, no need to report me... yet).</p>
+
+                    <p>Then came the real playground: my own home network. I fired up Nmap and began scanning, mapping out every device connected phones, laptops, routers. I learned to identify open ports, active services, and system fingerprints. It wasn’t just technical, it was personal. I was uncovering the hidden digital terrain around me.</p>
+
+                    <p>With time, I became sharper. Faster. More precise. I moved from basic scans to deep enumeration, using advanced flags, scripts, and stealth techniques. <p>One thing became clear:</p> <p>reconnaissance isn’t about speed, it’s about clarity. If you rush, you miss. If you're sloppy, you get caught.</p> <strong>Precision is everything.</strong></p>
+
+                    <p>One day, mid scan, I found something unexpected, my smart TV. Fully exposed. That moment stuck with me not because it was surprising, but because it reminded me how fragile our digital worlds really are.</p>
+
+                    <p>Network reconnaissance taught me more than just tools, it taught me mindset. It’s about seeing the invisible, understanding before engaging, and mastering the map before the mission. It’s the art of awareness and that’s where real cybersecurity begins.</p>
+
+
+                    <div class="article-footer">
+                        <div class="article-nav">
+                            <a href="neovim-philosophy.html" class="nav-link">← Previous Post</a>
+                            <a href="memory-management-c.html" class="nav-link">Next Post →</a>
+                        </div>
+                        
+                        <div class="article-share">
+                            <p>Want to discuss network security? <a href="mailto:ahmedkhaledahmed009@gmail.com">I'm always interested in security conversations</a>.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Ahmed. All rights reserved.</p>
+    </footer>
+</body>
+</html>

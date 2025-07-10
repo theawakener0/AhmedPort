@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building XShell: Lessons from Creating a Custom Shell - Ahmed Khaled</title>
+    <meta name="description" content="The journey of building XShell taught me more about system programming than any textbook could. From memory management to process control.">
+    
+    <link rel="icon" href="../assets/images/favicon.png", sizes="16x16 32x32 48x48 64x64 128x128">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">:: X ::</div>
+            <input type="checkbox" id="nav-toggle" class="nav-toggle">
+            <label for="nav-toggle" class="hamburger">
+                <div class="line1"></div>
+                <div class="line2"></div>
+                <div class="line3"></div>
+            </label>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../index.html#about">About</a></li>
+                <li><a href="../index.html#projects">Projects</a></li>
+                <li><a href="../index.html#skills">Skills</a></li>
+                <li><a href="../blog.html">Blog</a></li>
+                <li><a href="certifications.html">Certifications</a></li>
+                <li><a href="../index.html#contact">Contact</a></li>
+                <li class="mobile-github-icon"><a href="https://github.com/theawakener0" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a></li>
+            </ul>
+            <a href="https://github.com/theawakener0" target="_blank" rel="noopener noreferrer" class="desktop-github-icon"><i class="fab fa-github"></i></a>
+        </nav>
+    </header>
+
+    <main>
+        <article class="article-container">
+            <div class="container">
+                <div class="article-header">
+                    <a href="../blog.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Blog</a>
+                    <div class="article-meta">
+                        <span class="article-date">July 9, 2025</span>
+                        <span class="article-category">Systems Programming</span>
+                    </div>
+                    <h1>Building XShell: Lessons from Creating a Custom Shell</h1>
+                    <div class="article-tags">
+                        <span class="tag">C Programming</span>
+                        <span class="tag">Systems</span>
+                        <span class="tag">Unix</span>
+                    </div>
+                </div>
+
+                <div class="article-content">
+
+                    <p class="lead">The journey of building XShell taught me more about system programming than any textbook could. From memory management to process control, here's what I learned building a shell from scratch in C.</p>
+                    
+                    <blockquote>
+                        <p><em>"This isn't just about a shell. It's about taking back control one line of code at a time."</em></p>
+                    </blockquote>
+
+                    <p class="lead"><strong>by Xenomench</strong></p>
+
+                    <h2>Introduction: Into the Machine</h2>
+                    <p>Let's get real.</p>
+                    
+                    <p>This isn't a toy. This isn't a tutorial shell you build in an afternoon with <code>fgets()</code> and a few <code>printf()</code>s. This is <em>XShell</em>—a fully functioning, minimal yet powerful shell that I wrote from scratch in pure C.</p>
+
+                    <p>And in this article, I'm taking you deep inside the machine. We'll explore the architecture, the core mechanics, and the philosophy behind building something real—something alive.</p>
+
+                    <p>Before we dive into code, we must first understand a fundamental concept:</p>
+
+                    <h2>What <em>Is</em> a Shell?</h2>
+                    <p>A shell is your translator, your interface, your gatekeeper to the operating system. It's what stands between your intention and execution.</p>
+
+                    <p>When you type <code>ls</code>, the shell doesn't just show you a list. It locates the binary, spawns a process, runs it, captures the output, and hands it back—seamlessly.</p>
+
+                    <p>It feels simple. But under the hood, it's pure orchestration.</p>
+
+                    <h2>The Core: REPL (Read–Eval–Print Loop)</h2>
+                    <p>At the heart of XShell is the REPL loop:</p>
+                    
+                    <ul>
+                        <li><strong>Read</strong> user input</li>
+                        <li><strong>Evaluate</strong> the command</li>
+                        <li><strong>Print</strong> the result</li>
+                        <li><strong>Loop</strong> forever</li>
+                    </ul>
+
+                    <p>Elegant. Minimal. Infinite.</p>
+
+                    <p>But execution is where the true complexity emerges. Most tutorials stop at <code>fgets()</code>. That's fine—if you're building a practice toy. I wasn't.</p>
+
+                    <h2>Real Interaction: Custom Line Editor</h2>
+                    <p>I built a <strong>custom line editor</strong>—one that captures individual keystrokes in real time. Not just characters, but intent.</p>
+
+                    <ul>
+                        <li>Tab completion</li>
+                        <li>Arrow key navigation</li>
+                        <li>Command history</li>
+                        <li>Real-time editing</li>
+                    </ul>
+
+                    <p>You're not just typing into XShell. You're <strong>interacting</strong> with it.</p>
+
+                    <p>That's the difference between a hollow replica and a responsive, living system.</p>
+
+                    <h2>Built-In Commands: Why They Matter</h2>
+                    <p>Why are some commands "built-in"? Because they affect the shell's <em>own</em> environment.</p>
+
+                    <p>You can't change the current working directory with an external <code>cd</code>. That change has to happen <em>within</em> the shell process.</p>
+
+                    <p>My solution? <strong>Function pointers and dispatch tables</strong>.</p>
+
+                    <p>One array holds command names. Another holds their function handlers.</p>
+
+                    <p>Want to add a new command? Just add a pair to the table. Clean, scalable, efficient.</p>
+
+                    <p>This is the DNA of good software design.</p>
+
+                    <h2>External Commands: OS-Level Execution</h2>
+                    <p>Now we peel back the curtain on how operating systems really work.</p>
+
+                    <p>XShell uses:</p>
+
+                    <pre><code>fork();   // Create a child process  
+exec();   // Replace the process image with a new program
+wait();   // Parent waits for child to finish</code></pre>
+
+                    <p>This is raw. This is real. This is process creation and program replacement at the OS level—<em>no abstractions</em>.</p>
+
+                    <p>This is what separates programmers from script kiddies.</p>
+
+                    <h2>History: Memory Meets UX</h2>
+                    <p>A shell without history is like a browser with no tabs.</p>
+
+                    <p>I implemented a <strong>circular buffer</strong> with <strong>duplicate detection</strong> to ensure meaningful history.</p>
+
+                    <p>You're not just scrolling through a repeated list of past commands. You're navigating your actual workflow.</p>
+
+                    <p>Usability isn't decoration. It's power.</p>
+
+                    <h2>Cross-Platform Design: One Codebase, Two Worlds</h2>
+                    <p>XShell runs on both <strong>Linux</strong> and <strong>Windows</strong>—from the same codebase.</p>
+
+                    <p>Using smart <code>#ifdef</code> logic, the source adapts at compile time to match the target platform.</p>
+
+                    <p>No forks. No rewrites. Just clean, portable C.</p>
+
+                    <p>This is how you build systems meant to survive.</p>
+
+                    <h2>Memory Management: The Discipline of C</h2>
+                    <p>C gives you full control over memory—and that means full responsibility.</p>
+
+                    <p>In XShell, every <code>malloc()</code> is tracked and matched with a corresponding <code>free()</code>.</p>
+
+                    <p>I developed a lightweight memory tracking system to prevent leaks and eliminate dangling pointers.</p>
+
+                    <p>This is more than functionality. It's disciplined engineering. A codebase that cleans up after itself is one that endures.</p>
+
+                    <h2>The Foundation of Something Greater</h2>
+                    <p>What you've just seen is the core logic, the architecture, the bones of XShell.</p>
+
+                    <p>But don't mistake this for the full story. This is just the foundation. Just the start.</p>
+
+                    <p>The real power? You'll see it live.</p>
+
+                    <p>In the next part of my video series, I'll demo XShell in action—how it flows, how it responds, how it breathes.</p>
+
+                    <p>Because this isn't just a tool.</p>
+
+                    <p>It's a <strong>statement</strong>.</p>
+
+                    <p>A declaration that the machine does not own you. You <em>command</em> it.</p>
+
+                    <h2>Final Words: The Philosophy Behind the Code</h2>
+                    <p>XShell is more than a shell. It's an idea—a challenge to modern software bloat, to reliance on abstraction, to passivity.</p>
+
+                    <p>In building it, I took back control—line by line, byte by byte.</p>
+
+                    <p>And if you understand what I'm really building here, you'll realize:</p>
+
+                    <blockquote>
+                        <p><strong>This isn't just about command execution. This is about mastering the system.</strong><br>
+                        <strong>This is about becoming limitless.</strong><br>
+                        <strong>This... is Xenomench.</strong></p>
+                    </blockquote>
+
+                    <div class="article-footer">
+                        <div class="article-nav">
+                            <a href="../blog.html" class="nav-link">← Back to All Posts</a>
+                            <a href="philosophy-of-code.html" class="nav-link">Next Post →</a>
+                        </div>
+                        
+                        <div class="article-share">
+                            <p>Want to discuss this post? <a href="mailto:ahmedkhaledahmed009@gmail.com">Send me an email</a> or check out the <a href="https://github.com/theawakener0/XShell" target="_blank">XShell repository</a>.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Ahmed. All rights reserved.</p>
+    </footer>
+</body>
+</html>
