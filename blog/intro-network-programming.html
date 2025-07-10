@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introduction to Network Programming in C - Ahmed Khaled</title>
+    <meta name="description" content="Network programming in C is a fundamental skill for systems programmers and cybersecurity professionals. This guide covers the essential concepts from sockets to client-server applications.">
+    
+    <link rel="icon" href="../assets/images/favicon.png" sizes="16x16 32x32 48x48 64x64 128x128">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">:: X ::</div>
+            <input type="checkbox" id="nav-toggle" class="nav-toggle">
+            <label for="nav-toggle" class="hamburger">
+                <div class="line1"></div>
+                <div class="line2"></div>
+                <div class="line3"></div>
+            </label>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../index.html#about">About</a></li>
+                <li><a href="../index.html#projects">Projects</a></li>
+                <li><a href="../index.html#skills">Skills</a></li>
+                <li><a href="../blog.html">Blog</a></li>
+                <li><a href="../certifications.html">Certifications</a></li>
+                <li><a href="../index.html#contact">Contact</a></li>
+                <li class="mobile-github-icon"><a href="https://github.com/theawakener0" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a></li>
+            </ul>
+            <a href="https://github.com/theawakener0" target="_blank" rel="noopener noreferrer" class="desktop-github-icon"><i class="fab fa-github"></i></a>
+        </nav>
+    </header>
+
+    <main>
+        <article class="article-container">
+            <div class="container">
+                <div class="article-header">
+                    <a href="../blog.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Blog</a>
+                    <div class="article-meta">
+                        <span class="article-date">Jul 11, 2025</span>
+                        <span class="article-category">Networking</span>
+                    </div>
+                    <h1>Introduction to Network Programming in C</h1>
+                    <div class="article-tags">
+                        <span class="tag">C Programming</span>
+                        <span class="tag">Network Programming</span>
+                        <span class="tag">Sockets</span>
+                    </div>
+                </div>
+
+                <div class="article-content">
+                    <p class="lead">Network programming in C is a fundamental skill for systems programmers and cybersecurity professionals. This guide covers the essential concepts from sockets to client server applications, providing a solid foundation for building networked applications.</p>
+
+            <h2>What is a Socket?</h2>
+            
+            <p>A socket is a communication endpoint that allows processes to communicate across a network or even within the same machine. Think of it as a telephone you can call someone, they can call you, and you can talk back and forth. In network programming, sockets provide the interface between your application and the network.</p>
+
+            <p>Sockets abstract away the complexity of network protocols, allowing you to read and write data as if you were working with files. They provide a standardized API for network communication across different operating systems.</p>
+
+            <h3>Two Types of Internet Sockets</h3>
+            
+            <p>There are two primary types of Internet sockets:</p>
+
+            <h4>Stream Sockets (SOCK_STREAM)</h4>
+            <ul>
+                <li><strong>Protocol:</strong> TCP (Transmission Control Protocol)</li>
+                <li><strong>Reliability:</strong> Guaranteed delivery and order</li>
+                <li><strong>Connection:</strong> Connection-oriented</li>
+                <li><strong>Use cases:</strong> Web browsing, email, file transfers</li>
+            </ul>
+
+            <pre><code>int sockfd = socket(AF_INET, SOCK_STREAM, 0);</code></pre>
+
+            <h4>Datagram Sockets (SOCK_DGRAM)</h4>
+            <ul>
+                <li><strong>Protocol:</strong> UDP (User Datagram Protocol)</li>
+                <li><strong>Reliability:</strong> No delivery guarantee</li>
+                <li><strong>Connection:</strong> Connectionless</li>
+                <li><strong>Use cases:</strong> Gaming, streaming, DNS queries</li>
+            </ul>
+
+            <pre><code>int sockfd = socket(AF_INET, SOCK_DGRAM, 0);</code></pre>
+
+            <h3>Low Level Nonsense and Network Theory</h3>
+            
+            <p>At the low level, network communication involves multiple layers of the OSI model. When you send data through a socket:</p>
+
+            <ol>
+                <li><strong>Application Layer:</strong> Your C program</li>
+                <li><strong>Transport Layer:</strong> TCP/UDP adds port information</li>
+                <li><strong>Network Layer:</strong> IP adds addressing information</li>
+                <li><strong>Data Link Layer:</strong> Ethernet adds hardware addresses</li>
+                <li><strong>Physical Layer:</strong> Electrical signals on the wire</li>
+            </ol>
+
+            <p>The kernel handles most of this complexity, but understanding these layers helps debug network issues and optimize performance.</p>
+
+            <h2>IP Addresses, structs, and Data Munging</h2>
+
+            <h3>IP Addresses, versions 4 and 6</h3>
+            
+            <p>IP addresses are unique identifiers for devices on a network. There are two main versions:</p>
+
+            <h4>IPv4</h4>
+            <ul>
+                <li>32-bit addresses (4 bytes)</li>
+                <li>Dotted decimal notation: 192.168.1.1</li>
+                <li>~4.3 billion possible addresses</li>
+            </ul>
+
+            <pre><code>struct sockaddr_in {
+    short int          sin_family;  // Address family, AF_INET
+    unsigned short int sin_port;    // Port number
+    struct in_addr     sin_addr;    // Internet address
+    unsigned char      sin_zero[8]; // Same size as struct sockaddr
+};</code></pre>
+
+            <h4>IPv6</h4>
+            <ul>
+                <li>128-bit addresses (16 bytes)</li>
+                <li>Hexadecimal notation: 2001:0db8:85a3::8a2e:0370:7334</li>
+                <li>Virtually unlimited addresses</li>
+            </ul>
+
+            <pre><code>struct sockaddr_in6 {
+    u_int16_t       sin6_family;   // address family, AF_INET6
+    u_int16_t       sin6_port;     // port number, Network Byte Order
+    u_int32_t       sin6_flowinfo; // IPv6 flow information
+    struct in6_addr sin6_addr;     // IPv6 address
+    u_int32_t       sin6_scope_id; // Scope ID
+};</code></pre>
+
+            <h4>Subnets</h4>
+            <p>Subnets divide networks into smaller, manageable pieces. CIDR notation (192.168.1.0/24) indicates network and host portions:</p>
+            <ul>
+                <li>/24 means first 24 bits are network, last 8 are host</li>
+                <li>192.168.1.0/24 allows addresses 192.168.1.1-192.168.1.254</li>
+                <li>Subnet masks help routers determine packet destinations</li>
+            </ul>
+
+            <h4>Port Numbers</h4>
+            <p>Ports identify specific services on a machine:</p>
+            <ul>
+                <li><strong>Well-known ports (0-1023):</strong> HTTP (80), HTTPS (443), SSH (22)</li>
+                <li><strong>Registered ports (1024-49151):</strong> Application-specific</li>
+                <li><strong>Dynamic ports (49152-65535):</strong> Temporary client connections</li>
+            </ul>
+
+            <h3>Byte Order</h3>
+            
+            <p>Different CPU architectures store multi-byte numbers differently:</p>
+
+            <ul>
+                <li><strong>Big Endian:</strong> Most significant byte first (network byte order)</li>
+                <li><strong>Little Endian:</strong> Least significant byte first (x86 machines)</li>
+            </ul>
+
+            <p>Always convert to network byte order for transmission:</p>
+
+            <pre><code>// Host to Network
+uint16_t port_net = htons(port_host);     // 16-bit
+uint32_t addr_net = htonl(addr_host);     // 32-bit
+
+// Network to Host
+uint16_t port_host = ntohs(port_net);     // 16-bit
+uint32_t addr_host = ntohl(addr_net);     // 32-bit</code></pre>
+
+            <h3>structs</h3>
+            
+            <p>Key structures for network programming:</p>
+
+            <pre><code>// Generic socket address structure
+struct sockaddr {
+    unsigned short sa_family;    // address family, AF_xxx
+    char           sa_data[14];  // 14 bytes of protocol address
+};
+
+// Internet address
+struct in_addr {
+    uint32_t s_addr; // that's a 32-bit int (4 bytes)
+};
+
+// IPv6 address
+struct in6_addr {
+    unsigned char s6_addr[16]; // IPv6 address
+};</code></pre>
+
+            <h3>IP Addresses, Part Deux</h3>
+            
+            <p>Working with IP addresses in C:</p>
+
+            <pre><code>// Convert IP string to binary
+struct sockaddr_in sa;
+inet_pton(AF_INET, "192.0.2.1", &(sa.sin_addr));
+
+// Convert binary to IP string
+char ip_str[INET_ADDRSTRLEN];
+inet_ntop(AF_INET, &(sa.sin_addr), ip_str, INET_ADDRSTRLEN);</code></pre>
+
+            <h4>Private (Or Disconnected) Networks</h4>
+            <p>Private IP ranges not routed on the Internet:</p>
+            <ul>
+                <li>10.0.0.0/8 (10.0.0.0 - 10.255.255.255)</li>
+                <li>172.16.0.0/12 (172.16.0.0 - 172.31.255.255)</li>
+                <li>192.168.0.0/16 (192.168.0.0 - 192.168.255.255)</li>
+            </ul>
+
+            <h2>Jumping from IPv4 to IPv6</h2>
+            
+            <p>Writing dual stack applications that work with both IPv4 and IPv6:</p>
+
+            <pre><code>struct addrinfo hints, *res;
+memset(&hints, 0, sizeof hints);
+hints.ai_family = AF_UNSPEC;     // AF_INET or AF_INET6 to force version
+hints.ai_socktype = SOCK_STREAM;
+
+getaddrinfo("www.example.com", "http", &hints, &res);</code></pre>
+
+            <p>This approach future-proofs your code and ensures compatibility across different network environments.</p>
+
+            <h2>System Calls or Bust</h2>
+
+            <h3>getaddrinfo()</h3>
+            
+            <p>Modern replacement for gethostbyname(), handles both IPv4 and IPv6:</p>
+
+            <pre><code>int getaddrinfo(const char *node,     // e.g. "www.example.com" or IP
+                const char *service,  // e.g. "http" or port number
+                const struct addrinfo *hints,
+                struct addrinfo **res);
+
+// Example usage
+struct addrinfo hints, *servinfo;
+memset(&hints, 0, sizeof hints);
+hints.ai_family = AF_UNSPEC;
+hints.ai_socktype = SOCK_STREAM;
+
+int status = getaddrinfo("www.google.com", "80", &hints, &servinfo);
+if (status != 0) {
+    fprintf(stderr, "getaddrinfo error: %s\n", gai_strerror(status));
+    exit(1);
+}</code></pre>
+
+            <h3>socket()</h3>
+            
+            <p>Creates a socket and returns a file descriptor:</p>
+
+            <pre><code>int socket(int domain, int type, int protocol);
+
+// Examples
+int sockfd = socket(AF_INET, SOCK_STREAM, 0);    // TCP
+int sockfd = socket(AF_INET, SOCK_DGRAM, 0);     // UDP
+int sockfd = socket(AF_INET6, SOCK_STREAM, 0);   // TCP over IPv6</code></pre>
+
+            <h3>bind()</h3>
+            
+            <p>Associates a socket with a specific address and port:</p>
+
+            <pre><code>int bind(int sockfd, struct sockaddr *my_addr, int addrlen);
+
+// Example
+struct sockaddr_in my_addr;
+my_addr.sin_family = AF_INET;
+my_addr.sin_port = htons(3490);    // short, network byte order
+my_addr.sin_addr.s_addr = INADDR_ANY; // use my IP
+memset(my_addr.sin_zero, '\0', sizeof my_addr.sin_zero);
+
+bind(sockfd, (struct sockaddr *)&my_addr, sizeof my_addr);</code></pre>
+
+            <h3>connect()</h3>
+            
+            <p>Initiates a connection to a remote host (TCP only):</p>
+
+            <pre><code>int connect(int sockfd, struct sockaddr *serv_addr, int addrlen);
+
+// Example
+struct sockaddr_in dest_addr;
+dest_addr.sin_family = AF_INET;
+dest_addr.sin_port = htons(80);
+inet_pton(AF_INET, "192.0.2.1", &dest_addr.sin_addr);
+
+connect(sockfd, (struct sockaddr *)&dest_addr, sizeof dest_addr);</code></pre>
+
+            <h3>listen()</h3>
+            
+            <p>Marks a socket as passive, ready to accept connections:</p>
+
+            <pre><code>int listen(int sockfd, int backlog);
+
+// Example
+listen(sockfd, 10); // up to 10 pending connections</code></pre>
+
+            <h3>accept()</h3>
+            
+            <p>Accepts incoming connections and returns a new socket for communication:</p>
+
+            <pre><code>int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen);
+
+// Example
+struct sockaddr_storage their_addr;
+socklen_t addr_size = sizeof their_addr;
+int new_fd = accept(sockfd, (struct sockaddr *)&their_addr, &addr_size);</code></pre>
+
+            <h3>send() and recv()</h3>
+            
+            <p>Send and receive data over TCP connections:</p>
+
+            <pre><code>int send(int sockfd, const void *msg, int len, int flags);
+int recv(int sockfd, void *buf, int len, int flags);
+
+// Example
+char *msg = "Hello, world!";
+int bytes_sent = send(sockfd, msg, strlen(msg), 0);
+
+char buf[100];
+int bytes_received = recv(sockfd, buf, sizeof buf - 1, 0);</code></pre>
+
+            <h3>5.8 sendto() and recvfrom()- DGRAM-style</h3>
+            
+            <p>Send and receive data over UDP (connectionless):</p>
+
+            <pre><code>int sendto(int sockfd, const void *msg, int len, unsigned int flags,
+           const struct sockaddr *to, socklen_t tolen);
+int recvfrom(int sockfd, void *buf, int len, unsigned int flags,
+             struct sockaddr *from, socklen_t *fromlen);
+
+// Example
+sendto(sockfd, "Hello!", 6, 0, 
+       (struct sockaddr *)&dest_addr, sizeof dest_addr);</code></pre>
+
+            <h3>close() and shutdown()</h3>
+            
+            <p>Properly close socket connections:</p>
+
+            <pre><code>close(sockfd);  // Close socket completely
+
+// Shutdown allows partial closure
+shutdown(sockfd, SHUT_RD);   // No more receives
+shutdown(sockfd, SHUT_WR);   // No more sends
+shutdown(sockfd, SHUT_RDWR); // No more sends or receives</code></pre>
+
+            <h3>getpeername()</h3>
+            
+            <p>Get information about the connected peer:</p>
+
+            <pre><code>int getpeername(int sockfd, struct sockaddr *addr, socklen_t *addrlen);
+
+struct sockaddr_storage addr;
+socklen_t len = sizeof addr;
+getpeername(sockfd, (struct sockaddr*)&addr, &len);</code></pre>
+
+            <h3>gethostname()</h3>
+            
+            <p>Get the local machine's hostname:</p>
+
+            <pre><code>int gethostname(char *hostname, size_t size);
+
+char hostname[256];
+gethostname(hostname, sizeof hostname);</code></pre>
+
+            <h2>Client Server Background</h2>
+
+            <h3>A Simple Stream Server</h3>
+            
+            <p>Basic TCP server structure:</p>
+
+            <pre><code>#include &lt;sys/socket.h&gt;
+#include &lt;netinet/in.h&gt;
+#include &lt;arpa/inet.h&gt;
+#include &lt;unistd.h&gt;
+
+int main() {
+    int sockfd, new_fd;
+    struct sockaddr_in my_addr, their_addr;
+    socklen_t sin_size;
+    
+    // Create socket
+    sockfd = socket(AF_INET, SOCK_STREAM, 0);
+    
+    // Setup address structure
+    my_addr.sin_family = AF_INET;
+    my_addr.sin_port = htons(3490);
+    my_addr.sin_addr.s_addr = INADDR_ANY;
+    
+    // Bind and listen
+    bind(sockfd, (struct sockaddr *)&my_addr, sizeof my_addr);
+    listen(sockfd, 10);
+    
+    // Accept connections
+    while(1) {
+        sin_size = sizeof their_addr;
+        new_fd = accept(sockfd, (struct sockaddr *)&their_addr, &sin_size);
+        
+        send(new_fd, "Hello, world!\n", 14, 0);
+        close(new_fd);
+    }
+    
+    return 0;
+}</code></pre>
+
+            <h3>A Simple Stream Client</h3>
+            
+            <p>Basic TCP client structure:</p>
+
+            <pre><code>#include &lt;sys/socket.h&gt;
+#include &lt;netinet/in.h&gt;
+#include &lt;arpa/inet.h&gt;
+#include &lt;unistd.h&gt;
+
+int main() {
+    int sockfd;
+    struct sockaddr_in dest_addr;
+    char buf[100];
+    
+    // Create socket
+    sockfd = socket(AF_INET, SOCK_STREAM, 0);
+    
+    // Setup destination address
+    dest_addr.sin_family = AF_INET;
+    dest_addr.sin_port = htons(3490);
+    inet_pton(AF_INET, "127.0.0.1", &dest_addr.sin_addr);
+    
+    // Connect to server
+    connect(sockfd, (struct sockaddr *)&dest_addr, sizeof dest_addr);
+    
+    // Receive data
+    recv(sockfd, buf, sizeof buf - 1, 0);
+    buf[sizeof buf - 1] = '\0';
+    printf("Received: %s", buf);
+    
+    close(sockfd);
+    return 0;
+}</code></pre>
+
+            <h3>Datagram Sockets</h3>
+            
+            <p>UDP communication doesn't require connection establishment:</p>
+
+            <pre><code>// UDP Server
+int sockfd = socket(AF_INET, SOCK_DGRAM, 0);
+bind(sockfd, (struct sockaddr *)&my_addr, sizeof my_addr);
+
+while(1) {
+    recvfrom(sockfd, buf, sizeof buf, 0, 
+             (struct sockaddr *)&their_addr, &addr_len);
+    sendto(sockfd, "ACK", 3, 0, 
+           (struct sockaddr *)&their_addr, addr_len);
+}
+
+// UDP Client
+int sockfd = socket(AF_INET, SOCK_DGRAM, 0);
+sendto(sockfd, "Hello", 5, 0, 
+       (struct sockaddr *)&dest_addr, sizeof dest_addr);
+recvfrom(sockfd, buf, sizeof buf, 0, NULL, NULL);</code></pre>
+
+            <h2>Conclusion</h2>
+            
+                <p>Network programming in C provides low level control over network communications. While higher level languages offer simpler APIs, understanding these fundamentals is crucial for:</p>
+
+                <ul>
+                    <li>Building high performance network applications</li>
+                    <li>Understanding security implications</li>
+                    <li>Debugging network issues</li>
+                    <li>Working with embedded systems</li>
+                </ul>
+
+                <p>Start with simple examples and gradually build more complex applications. Practice with both TCP and UDP to understand their different use cases. Remember to always handle errors properly and consider security implications in real world applications.</p>
+
+                <p>Happy hacking, and welcome to my world, where network programming becomes a weapon of knowledge and power.</p>
+
+                    <div class="article-footer">
+                        <div class="article-nav">
+                            <a href="../blog.html" class="nav-link">← Back to Blog</a>
+                            <a href="../blog/building-xshell.html" class="nav-link">Next Post →</a>
+                        </div>
+                        
+                        <div class="article-share">
+                            <p>Want to discuss network programming techniques or share your own socket implementations? <a href="mailto:ahmedkhaledahmed009@gmail.com">contact me a here</a>, I'd love to hear about your networking projects!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Ahmed. All rights reserved.</p>
+    </footer>
+</body>
+</html>
