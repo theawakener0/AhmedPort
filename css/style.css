@@ -945,6 +945,7 @@ footer {
 }
 
 .article-share {
+    display: block;
     text-align: center;
     padding: 1.5rem;
     background: rgba(255, 255, 255, 0.05);
