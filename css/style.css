@@ -391,19 +391,19 @@ main {
 }
 
 .profile-card-back h4 {
-    margin-bottom: 1rem;
-    font-size: 1.4rem;
+    margin-bottom: 0.8rem;
+    font-size: 1.1rem;
     text-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
 }
 
 .tools-icons {
     display: flex;
-    gap: 1.5rem;
-    margin-bottom: 1.5rem;
+    gap: 1rem;
+    margin-bottom: 1rem;
 }
 
 .tools-icons i {
-    font-size: 2.2rem;
+    font-size: 1.6rem;
     color: #fff;
     transition: color 0.3s, transform 0.3s;
 }
@@ -415,9 +415,51 @@ main {
 }
 
 .profile-card-back p {
-    font-size: 1rem;
+    font-size: 0.85rem;
     font-style: italic;
     max-width: 90%;
+    line-height: 1.4;
+}
+
+@media (max-width: 768px) {
+    .profile-card-back h4 {
+        font-size: 1rem;
+        margin-bottom: 0.6rem;
+    }
+    
+    .tools-icons {
+        gap: 0.8rem;
+        margin-bottom: 0.8rem;
+    }
+    
+    .tools-icons i {
+        font-size: 1.4rem;
+    }
+    
+    .profile-card-back p {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-card-back h4 {
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .tools-icons {
+        gap: 0.6rem;
+        margin-bottom: 0.6rem;
+    }
+    
+    .tools-icons i {
+        font-size: 1.2rem;
+    }
+    
+    .profile-card-back p {
+        font-size: 0.75rem;
+        line-height: 1.3;
+    }
 }
 
 /* Projects Section */
