@@ -19,8 +19,46 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- GSAP Core (Lightweight) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 </head>
 <body>
+    <!-- Scroll Progress Indicator -->
+    <div class="scroll-progress"></div>
+    
+    <!-- Custom Cursor -->
+    <div class="custom-cursor">
+        <div class="cursor-dot"></div>
+        <div class="cursor-ring"></div>
+    </div>
+    
+    <!-- Section Navigation Indicator -->
+    <div class="section-nav-indicator">
+        <div class="nav-dot" data-section="hero"></div>
+        <div class="nav-dot" data-section="about"></div>
+        <div class="nav-dot" data-section="projects"></div>
+        <div class="nav-dot" data-section="skills"></div>
+        <div class="nav-dot" data-section="contact"></div>
+    </div>
+    
+    <!-- Loading Overlay -->
+    <div class="loading-overlay">
+        <div class="loading-content">
+            <div class="loading-logo">:: X ::</div>
+            <div class="loading-text">Loading Portfolio...</div>
+            <div class="loading-progress">
+                <div class="loading-bar"></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Back to Top Button -->
+    <div class="back-to-top">
+        <i class="fas fa-chevron-up"></i>
+    </div>
+    
     <header>
         <nav>
             <div class="logo">:: X ::</div>
@@ -50,6 +88,10 @@
                 <h1 class="hero-title">Ahmed Khaled</h1>
                 <p class="hero-subtitle">AI developer & Cybersecurity Enthusiast</p>
                 <a href="#projects" class="btn">View My Work</a>
+            </div>
+            <div class="scroll-hint">
+                <i class="fas fa-chevron-down"></i>
+                Scroll Down
             </div>
         </section>
 
@@ -157,6 +199,11 @@ It combines core shell functionality with revolutionary commands like xmanifesto
     <footer>
         <p>&copy; 2025 Ahmed. All rights reserved.</p>
     </footer>
+
+    <!-- JavaScript Files -->
+    <script src="js/utils.js"></script>
+    <script src="js/animations.js"></script>
+    <script src="js/main.js"></script>
 
 </body>
 </html>
